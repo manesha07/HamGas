@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Aug 29, 2020 at 12:14 PM
+-- Generation Time: Aug 30, 2020 at 01:41 PM
 -- Server version: 10.4.13-MariaDB
 -- PHP Version: 7.4.8
 
@@ -20,6 +20,44 @@ SET time_zone = "+00:00";
 --
 -- Database: `hamrogas`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `customer`
+--
+
+CREATE TABLE `customer` (
+  `customer_id` int(6) UNSIGNED NOT NULL,
+  `email` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `postby_id` int(6) DEFAULT 1,
+  `created_at` timestamp NULL DEFAULT current_timestamp(),
+  `is_verified` tinyint(1) DEFAULT 0,
+  `verifiedby_id` int(6) DEFAULT 1,
+  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
+  `status` tinyint(1) DEFAULT 1,
+  `first_name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `last_name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `address` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `phone_number` int(10) NOT NULL,
+  `item` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payment` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `purpose` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `quantity` int(3) NOT NULL,
+  `profile` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `citizenship_card` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `code` mediumint(7) NOT NULL,
+  `latitude` decimal(12,8) NOT NULL,
+  `longitude` decimal(12,8) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `customer`
+--
+
+INSERT INTO `customer` (`customer_id`, `email`, `postby_id`, `created_at`, `is_verified`, `verifiedby_id`, `updated_at`, `status`, `first_name`, `last_name`, `address`, `phone_number`, `item`, `payment`, `purpose`, `quantity`, `profile`, `citizenship_card`, `code`, `latitude`, `longitude`) VALUES
+(131, 'kevin@gmail.com', 1, '2020-08-30 11:10:45', 0, 1, NULL, 1, 'kwvin', 'kook', 'dadeldura', 1234567899, 'HP GAS', 'Pay Online', 'comercial', 5, 'gas1.jpg', 'gas5.jpg', 637815, '27.68240640', '85.33114880'),
+(132, 'orera52@gmail.com', 1, '2020-08-30 11:19:08', 0, 1, NULL, 1, 'treat', 'trea', 'surya', 1234567890, 'HP GAS', 'Pay Online', 'domestic', 1, 'gas1.jpg', 'gas3.jpg', 503564, '27.68240640', '85.33114880');
 
 -- --------------------------------------------------------
 
@@ -60,7 +98,7 @@ INSERT INTO `delivery_boy` (`id`, `name`, `username`, `email`, `password`, `user
 --
 
 CREATE TABLE `gas_cylinders` (
-  `id` int(11) NOT NULL,
+  `gas_id` int(11) NOT NULL,
   `title` varchar(255) NOT NULL,
   `content` varchar(255) NOT NULL,
   `author` varchar(255) NOT NULL,
@@ -74,7 +112,7 @@ CREATE TABLE `gas_cylinders` (
 -- Dumping data for table `gas_cylinders`
 --
 
-INSERT INTO `gas_cylinders` (`id`, `title`, `content`, `author`, `featured_image`, `exc_price`, `new_price`, `stock`) VALUES
+INSERT INTO `gas_cylinders` (`gas_id`, `title`, `content`, `author`, `featured_image`, `exc_price`, `new_price`, `stock`) VALUES
 (1, 'SHREE GAS', '15L of SHREE domestic gas. Not for Commercial Use', '', 'gas3.jpg', 1350, 4000, 0),
 (2, 'NEPAL GAS', '15L of NEPAL Gas domestic gas. Not for Commercial Use', '', 'gas1.jpg', 1350, 4000, 50),
 (3, 'HIMAL GAS', '15L of HIMAL domestic gas. Not for Commercial Use', '', 'gas4.jpg', 1350, 4000, 5),
@@ -136,7 +174,8 @@ INSERT INTO `message` (`id`, `name`, `email`, `message`, `status`, `cr_date`) VA
 --
 
 CREATE TABLE `orders` (
-  `id` int(11) NOT NULL,
+  `order_id` int(11) NOT NULL,
+  `customer_id` int(11) NOT NULL,
   `name` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `email` varchar(50) COLLATE utf8_unicode_ci NOT NULL,
   `card_number` bigint(20) NOT NULL,
@@ -158,14 +197,16 @@ CREATE TABLE `orders` (
 -- Dumping data for table `orders`
 --
 
-INSERT INTO `orders` (`id`, `name`, `email`, `card_number`, `card_exp_month`, `card_exp_year`, `item_name`, `item_number`, `item_price`, `item_price_currency`, `paid_amount`, `paid_amount_currency`, `txn_id`, `payment_status`, `created`, `modified`) VALUES
-(1, 'Jenish Prajapati', 'zenish77@gmail.com', 4242424242424242, '08', '2022', 'Demo Product', 'PN12345', 1200.00, 'USD', '1200', 'usd', 'txn_1GMRoVDSTWXJ032VLdAX35gw', 'succeeded', '2020-03-14 10:26:31', '2020-03-14 10:26:31'),
-(2, 'Aman Mool', 'amsbjasdb@gmail.com', 4242424242424242, '02', '2022', 'Demo Product', 'PN12345', 1200.00, 'USD', '1200', 'usd', 'txn_1GMW3qDSTWXJ032VKBpIlMH4', 'succeeded', '2020-03-14 14:58:39', '2020-03-14 14:58:39'),
-(3, 'manish', 'masmas@gmail.com', 4242424242424242, '02', '2022', 'Demo Product', 'PN12345', 1200.00, 'USD', '1200', 'usd', 'txn_1GMW6uDSTWXJ032VtLbq3Nxv', 'succeeded', '2020-03-14 15:01:49', '2020-03-14 15:01:49'),
-(4, 'jenish', 'zenish77@gmail.com', 4242424242424242, '6', '2022', 'Demo Product', 'PN12345', 1200.00, 'USD', '1200', 'usd', 'txn_1GMZtQDSTWXJ032V9u3sP0gQ', 'succeeded', '2020-03-14 19:04:08', '2020-03-14 19:04:08'),
-(5, 'Random', 'lolololo@gmail.com', 378282246310005, '06', '2022', 'GAS', '2', 137500.00, 'NPR', '137500', 'npr', 'txn_1GMjt1DSTWXJ032VIQFuKDmc', 'succeeded', '2020-03-15 05:44:24', '2020-03-15 05:44:24'),
-(6, 'Manish Gora', 'manisa33@gmail.com', 4242424242424242, '03', '2022', 'GAS', '2', 137500.00, 'NPR', '137500', 'npr', 'txn_1Gc845DSTWXJ032VGU86oljS', 'succeeded', '2020-04-26 16:35:28', '2020-04-26 16:35:28'),
-(7, 'mn', 'oera52@gmail.com', 4242424242424242, '2', '2022', 'HP GAS', '2', 275000.00, 'NPR', '275000', 'npr', 'txn_1HLQmjDSTWXJ032VeqnDUi8T', 'succeeded', '2020-08-29 15:40:45', '2020-08-29 15:40:45');
+INSERT INTO `orders` (`order_id`, `customer_id`, `name`, `email`, `card_number`, `card_exp_month`, `card_exp_year`, `item_name`, `item_number`, `item_price`, `item_price_currency`, `paid_amount`, `paid_amount_currency`, `txn_id`, `payment_status`, `created`, `modified`) VALUES
+(1, 0, 'Jenish Prajapati', 'zenish77@gmail.com', 4242424242424242, '08', '2022', 'Demo Product', 'PN12345', 1200.00, 'USD', '1200', 'usd', 'txn_1GMRoVDSTWXJ032VLdAX35gw', 'succeeded', '2020-03-14 10:26:31', '2020-03-14 10:26:31'),
+(2, 0, 'Aman Mool', 'amsbjasdb@gmail.com', 4242424242424242, '02', '2022', 'Demo Product', 'PN12345', 1200.00, 'USD', '1200', 'usd', 'txn_1GMW3qDSTWXJ032VKBpIlMH4', 'succeeded', '2020-03-14 14:58:39', '2020-03-14 14:58:39'),
+(3, 0, 'manish', 'masmas@gmail.com', 4242424242424242, '02', '2022', 'Demo Product', 'PN12345', 1200.00, 'USD', '1200', 'usd', 'txn_1GMW6uDSTWXJ032VtLbq3Nxv', 'succeeded', '2020-03-14 15:01:49', '2020-03-14 15:01:49'),
+(4, 0, 'jenish', 'zenish77@gmail.com', 4242424242424242, '6', '2022', 'Demo Product', 'PN12345', 1200.00, 'USD', '1200', 'usd', 'txn_1GMZtQDSTWXJ032V9u3sP0gQ', 'succeeded', '2020-03-14 19:04:08', '2020-03-14 19:04:08'),
+(5, 0, 'Random', 'lolololo@gmail.com', 378282246310005, '06', '2022', 'GAS', '2', 137500.00, 'NPR', '137500', 'npr', 'txn_1GMjt1DSTWXJ032VIQFuKDmc', 'succeeded', '2020-03-15 05:44:24', '2020-03-15 05:44:24'),
+(6, 0, 'Manish Gora', 'manisa33@gmail.com', 4242424242424242, '03', '2022', 'GAS', '2', 137500.00, 'NPR', '137500', 'npr', 'txn_1Gc845DSTWXJ032VGU86oljS', 'succeeded', '2020-04-26 16:35:28', '2020-04-26 16:35:28'),
+(7, 0, 'mn', 'oera52@gmail.com', 4242424242424242, '2', '2022', 'HP GAS', '2', 275000.00, 'NPR', '275000', 'npr', 'txn_1HLQmjDSTWXJ032VeqnDUi8T', 'succeeded', '2020-08-29 15:40:45', '2020-08-29 15:40:45'),
+(8, 131, 'manisha', 'maishakook@gmail.com', 4242424242424242, '2', '2022', 'HP GAS', '2', 687500.00, 'NPR', '687500', 'npr', 'txn_1HLoSoDSTWXJ032VRje0vRdj', 'succeeded', '2020-08-30 16:57:46', '2020-08-30 16:57:46'),
+(9, 132, 'kookie', 'a_gora@hotmail.com', 4242424242424242, '2', '2022', 'HP GAS', '2', 137500.00, 'NPR', '137500', 'npr', 'txn_1HLoZpDSTWXJ032VN2yMDeJW', 'succeeded', '2020-08-30 17:05:01', '2020-08-30 17:05:01');
 
 -- --------------------------------------------------------
 
@@ -231,57 +272,18 @@ INSERT INTO `stove` (`id`, `title`, `content`, `author`, `featured_image`, `stoc
 (3, 'Tri-Stove', '', '', 'stove3.png', '50', 6250),
 (4, 'Quad Burner', '', '', 'stove4.png', '50', 7777);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `user`
---
-
-CREATE TABLE `user` (
-  `id` int(6) UNSIGNED NOT NULL,
-  `email` varchar(80) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `postby_id` int(6) DEFAULT 1,
-  `created_at` timestamp NULL DEFAULT current_timestamp(),
-  `is_verified` tinyint(1) DEFAULT 0,
-  `verifiedby_id` int(6) DEFAULT 1,
-  `updated_at` datetime DEFAULT NULL ON UPDATE current_timestamp(),
-  `status` tinyint(1) DEFAULT 1,
-  `first_name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `last_name` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `address` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `phone_number` int(10) NOT NULL,
-  `item` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payment` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `purpose` varchar(40) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `quantity` int(3) NOT NULL,
-  `profile` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `citizenship_card` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `code` mediumint(7) NOT NULL,
-  `latitude` decimal(12,8) NOT NULL,
-  `longitude` decimal(12,8) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Dumping data for table `user`
---
-
-INSERT INTO `user` (`id`, `email`, `postby_id`, `created_at`, `is_verified`, `verifiedby_id`, `updated_at`, `status`, `first_name`, `last_name`, `address`, `phone_number`, `item`, `payment`, `purpose`, `quantity`, `profile`, `citizenship_card`, `code`, `latitude`, `longitude`) VALUES
-(117, 'taehyung@gmail.com', 1, '2020-08-12 07:02:22', 0, 1, NULL, 1, 'tae', 'hyung', 'dawe', 1234567699, 'sagar', 'Pay Online', 'comercial', 3, 'Screenshot (433).png', 'Screenshot (434).png', 763144, '0.00000000', '0.00000000'),
-(118, 'masnisha_gorda@hotmail.com', 1, '2020-08-20 03:06:31', 0, 1, NULL, 1, 'jk', 'k', '123', 2147483647, 'sagar', 'Pay Online', 'comercial', 3, 'bb2.jpg', 'cross.jpg', 459588, '0.00000000', '0.00000000'),
-(119, 'taekok@gmail.com', 1, '2020-08-28 05:52:18', 0, 1, NULL, 1, 'tae ', 'tae', 'south kkorea ', 1234567890, 'sagar', 'COD', 'domestic', 2, 'Screenshot (5).png', 'Screenshot (3).png', 513603, '0.00000000', '0.00000000'),
-(120, 'taegora@gmail.com', 1, '2020-08-28 05:57:13', 0, 1, NULL, 1, 'cvdss', 'df', 'south korea', 1234567890, 'sagar', 'Pay Online', 'comercial', 3, 'Screenshot (4).png', 'Screenshot (5).png', 159772, '0.00000000', '0.00000000'),
-(121, 'sa@gmail.com', 1, '2020-08-29 05:36:18', 0, 1, NULL, 1, 'sadhguru', 'dagh', 'india', 1234567890, 'sagar', 'Pay Online', 'comercial', 3, 'Screenshot (2).png', 'Screenshot (5).png', 133325, '0.00000000', '0.00000000'),
-(122, 'a_gdora@hotmail.com', 1, '2020-08-29 06:06:36', 0, 1, NULL, 1, 'sfa', 'd', '23', 1234567890, 'sagar', 'Pay Online', 'comercial', 4, 'gas4.jpg', 'gas5.jpg', 542749, '0.00000000', '0.00000000'),
-(123, 'd@gmail.com', 1, '2020-08-29 08:43:16', 0, 1, NULL, 1, 'd', 'df', 'd', 1234567890, 'sagar', 'COD', 'comercial', 3, 'gas4.jpg', 'gas5.jpg', 393330, '27.46958530', '85.27224720'),
-(124, 'd2@gmail.com', 1, '2020-08-29 08:48:40', 0, 1, NULL, 1, 'asdd', 'df', 'a', 1234567890, 'sagar', 'Pay Online', 'comercial', 3, 'gas3.jpg', 'gas2.jpg', 180997, '27.46958530', '85.27224720'),
-(126, 'sdfd@gmail.com', 1, '2020-08-29 09:34:12', 0, 1, NULL, 1, 'sdfd', 'dfd', 'fdsd', 1234567890, 'sagar', 'Pay Online', 'domestic', 1, 'gas1.jpg', 'gas3.jpg', 221535, '0.00000000', '0.00000000'),
-(127, 'orar52@gmail.com', 1, '2020-08-29 09:43:29', 0, 1, NULL, 1, 'aniiiiii', 'd', 'su', 2147483647, 'sagar', 'Pay Online', 'comercial', 3, 'gas3.jpg', 'gas3.jpg', 421340, '0.00000000', '0.00000000'),
-(128, 'orvar52@gmail.com', 1, '2020-08-29 09:44:34', 0, 1, NULL, 1, 'aniiiiii', 'd', 'sur', 2147483647, 'sagar', 'Pay Online', 'domestic', 1, 'gas3.jpg', 'gas3.jpg', 287898, '0.00000000', '0.00000000'),
-(129, 'oera5f2@gmail.com', 1, '2020-08-29 09:53:55', 0, 1, NULL, 1, 'xfd', 'fgf', 's', 1234567899, 'HP GAS', 'Pay Online', 'domestic', 2, 'gas3.jpg', 'gas4.jpg', 968245, '27.46958530', '85.27224720');
-
 --
 -- Indexes for dumped tables
 --
+
+--
+-- Indexes for table `customer`
+--
+ALTER TABLE `customer`
+  ADD PRIMARY KEY (`customer_id`),
+  ADD UNIQUE KEY `users_email_unique` (`email`),
+  ADD KEY `verifiedby_id` (`verifiedby_id`),
+  ADD KEY `postby_id` (`postby_id`);
 
 --
 -- Indexes for table `delivery_boy`
@@ -297,7 +299,7 @@ ALTER TABLE `delivery_boy`
 -- Indexes for table `gas_cylinders`
 --
 ALTER TABLE `gas_cylinders`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`gas_id`);
 
 --
 -- Indexes for table `item`
@@ -315,7 +317,7 @@ ALTER TABLE `message`
 -- Indexes for table `orders`
 --
 ALTER TABLE `orders`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`order_id`);
 
 --
 -- Indexes for table `product`
@@ -330,17 +332,14 @@ ALTER TABLE `stove`
   ADD PRIMARY KEY (`id`);
 
 --
--- Indexes for table `user`
---
-ALTER TABLE `user`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `users_email_unique` (`email`),
-  ADD KEY `verifiedby_id` (`verifiedby_id`),
-  ADD KEY `postby_id` (`postby_id`);
-
---
 -- AUTO_INCREMENT for dumped tables
 --
+
+--
+-- AUTO_INCREMENT for table `customer`
+--
+ALTER TABLE `customer`
+  MODIFY `customer_id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=133;
 
 --
 -- AUTO_INCREMENT for table `delivery_boy`
@@ -352,7 +351,7 @@ ALTER TABLE `delivery_boy`
 -- AUTO_INCREMENT for table `gas_cylinders`
 --
 ALTER TABLE `gas_cylinders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `gas_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT for table `item`
@@ -370,7 +369,7 @@ ALTER TABLE `message`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `order_id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `product`
@@ -383,12 +382,6 @@ ALTER TABLE `product`
 --
 ALTER TABLE `stove`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
-
---
--- AUTO_INCREMENT for table `user`
---
-ALTER TABLE `user`
-  MODIFY `id` int(6) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=130;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
