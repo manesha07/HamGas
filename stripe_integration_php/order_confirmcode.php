@@ -8,10 +8,10 @@ $gmail= @$_GET['id'];
 if (isset($_POST['add_code']))
 {
     $u = $_POST['code'];
-    echo $u;
+    //echo $u;
 
     require_once("DBConnect.php");
-    $sql = "SELECT payment FROM `user` WHERE `code`= '$u' and `email`='$gmail'";
+    $sql = "SELECT payment FROM `customer` WHERE `code`= '$u' and `email`='$gmail'";
 
   	$result = mysqli_query($conn, $sql);
  $row = mysqli_fetch_assoc($result);
@@ -23,7 +23,7 @@ if (isset($_POST['add_code']))
     // echo "id: " . $row["id"]. " - Name: " . $row["first_name"]. " " . $row["last_name"]. "<br>";
   $p= $row["payment"];
 
-  echo $p;
+  //echo $p;
 
   // output data of each row
       if($p=="COD")
@@ -75,7 +75,7 @@ mysqli_close($conn);
           <form action="" method="POST" novalidate="">
     <div class="form-group">
       <label for="code">Code:</label>
-      <input type="code" class="form-control" id="code" placeholder="Enter code" name="code">
+      <input type="number" class="form-control" id="code" placeholder="Enter code" name="code">
     </div>
 
 

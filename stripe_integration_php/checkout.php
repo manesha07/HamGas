@@ -58,7 +58,24 @@
      print_r($errors);
    }
  }
-    $otp=random_int(100000, 999999); //This is one time password generator.
+ $otp="";
+while ($otp=='')
+ { 
+  $otp=random_int(100000, 999999); //This is one time password generator.
+
+require_once("dbConnect.php");
+
+$sqlq = "SELECT code FROM `customer` WHERE `code`= '$otp'";
+$resultq = mysqli_query($conn, $sqlq);
+$rowq = mysqli_fetch_assoc($resultq);
+//$data = mysqli_num_rows($result);
+ //echo "<pre>"; print_r($result); 
+if (mysqli_num_rows($resultq) > 0){
+ $otp="";
+}
+
+}
+
 
   // echo "Nepal";exit();
     $u = $_POST['first_name'];
@@ -76,7 +93,7 @@
     $lat=$_POST['latitude'];
     $long=$_POST['longitude'];
 
-    $sql = "INSERT INTO `user` (`first_name`, `email`,`last_name`,`item`,`purpose`,`payment`,`quantity`,`phone_number`,`profile`,`address`,`citizenship_card`,`code`,`latitude`,`longitude`)
+    $sql = "INSERT INTO `customer` (`first_name`, `email`,`last_name`,`item`,`purpose`,`payment`,`quantity`,`phone_number`,`profile`,`address`,`citizenship_card`,`code`,`latitude`,`longitude`)
     VALUES ('$u', '$e', '$p', '$a', '$b', '$c', '$d', '$f', '$g', '$h', '$i', '$j','$lat','$long');";
   //echo $sql;
 
@@ -117,7 +134,7 @@
      {
   // echo "<script>window.location:'../../stripe_integration_php';</script>";
   
-     //header("Location: ../../stripe_integration_php/get_user.php?id= $e");
+     //header("Location: ../../stripe_integration_php/get_customer.php?id= $e");
     // header("Location: orderpage.php?id=$e");
       header("Location: order_confirmcode.php?id=$e");
     }
@@ -132,9 +149,9 @@
   // echo "Nepal";exit();
 require_once("DBConnect.php");
 
-$sql = "SELECT * FROM `item` WHERE 1 Limit 0, 10";
+$sql = "SELECT purpose FROM `item` WHERE 1 Limit 0, 10";
 $result = mysqli_query($conn, $sql);
-$sql1 = "SELECT * FROM `item` WHERE 1 Limit 0, 10";
+$sql1 = "SELECT gas_name FROM `item` WHERE 1 Limit 0, 10";
 $result1 = mysqli_query($conn, $sql1);
 $sql2 = "SELECT type FROM `item` WHERE 1 Limit 0, 10";
 $result2 = mysqli_query($conn, $sql2);
@@ -224,7 +241,7 @@ $(document).ready(function () {
 
 
     <div class="col-md-12">
-      <form class="needs-validation wow fadeInUp" data-wow-duration="2s" novalidate=""  method="POST" name="user" action="" enctype="multipart/form-data">
+      <form class="needs-validation wow fadeInUp" data-wow-duration="2s" novalidate=""  method="POST" name="customer" action="" enctype="multipart/form-data">
         <div class="row"> 
          <div class="col-md-4">
           <div class="mb-3 text-center" >
@@ -401,7 +418,8 @@ function showPosition(position) {
         <div class="col-md-4 mb-4">
           <label for="purpose">Purpose</label>
           <select class="custom-select-sm  form-control" name="purpose" required="" id="purpose" onselect="purposeSelected(this.value);"  onchange="purposeSelected(this.value);" >
-
+<option style="display: none" disabled selected value> purpose</option>  
+     
             <?php
             if (mysqli_num_rows($result) > 0) {
           // output data of each row

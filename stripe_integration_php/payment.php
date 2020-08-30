@@ -7,12 +7,13 @@ $gmail= @$_GET['id'];
 
 require_once("DBConnect.php");
 
-$sql1 = "SELECT * FROM `user` WHERE `email`= '$gmail'";
+$sql1 = "SELECT * FROM `customer` WHERE `email`= '$gmail'";
 $result1 = mysqli_query($conn, $sql1);
 $row1 = mysqli_fetch_assoc($result1);
     
     $quantity=$row1['quantity'];
-    echo $row1['quantity'];
+    $cid=$row1['customer_id'];
+    //echo $row1['quantity'];
     // Convert price to cents 
     $itemPrice = ($itemPrice*$quantity*100); 
  //--------------------------------------------------------------
@@ -26,7 +27,7 @@ $ordStatus = 'error';
 // Check whether stripe token is not empty A
 if(!empty($_POST['stripeToken'])){  
      
-    // Retrieve stripe token, card and user info from the submitted form data 
+    // Retrieve stripe token, card and customer info from the submitted form data 
     $token  = $_POST['stripeToken']; 
     $name = $_POST['name']; 
     $email = $_POST['email']; 
@@ -77,7 +78,7 @@ if(!empty($_POST['stripeToken'])){
         include_once 'dConnect.php'; 
          
         // Insert tansaction data into the database 
-        $sql = "INSERT INTO orders(name,email,card_number,card_exp_month,card_exp_year,item_name,item_number,item_price,item_price_currency,paid_amount,paid_amount_currency,txn_id,payment_status,created,modified) VALUES('".$name."','".$email."','".$card_number."','".$card_exp_month."','".$card_exp_year."','".$itemName."','".$itemNumber."','".$itemPrice."','".$currency."','".$paidAmount."','".$paidCurrency."','".$transactionID."','".$payment_status."',NOW(),NOW())"; 
+        $sql = "INSERT INTO orders(customer_id,name,email,card_number,card_exp_month,card_exp_year,item_name,item_number,item_price,item_price_currency,paid_amount,paid_amount_currency,txn_id,payment_status,created,modified) VALUES('".$cid."','".$name."','".$email."','".$card_number."','".$card_exp_month."','".$card_exp_year."','".$itemName."','".$itemNumber."','".$itemPrice."','".$currency."','".$paidAmount."','".$paidCurrency."','".$transactionID."','".$payment_status."',NOW(),NOW())"; 
         $insert = $db->query($sql); 
         $payment_id = $db->insert_id; 
          

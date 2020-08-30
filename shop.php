@@ -243,13 +243,13 @@ include "include/dbconnect.php";
               <?php 
               if($row['stock']>10)
               { ?>
-              <a class="btn btn-success text-light" href="php/order/checkout.php"> Buy Now</a> &nbsp;
+              <a class="btn btn-success text-light" href="stripe_integration_php/checkout.php"> Buy Now</a> &nbsp;
             
           <?php }
           ?>
           <?php if($row['stock']<10&&$row['stock']>0)
               { ?>
-              <a class="btn btn-warning text-light" href="php/order/checkout.php" > Limited Stock! Buy Now </a> &nbsp;
+              <a class="btn btn-warning text-light" href="stripe_integration_php/checkout.php" > Limited Stock! Buy Now </a> &nbsp;
               <?php 
               }
               ?>

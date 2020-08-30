@@ -5,7 +5,7 @@ $gmail= @$_GET['id'];
 
 require_once("dbConnect.php");
 
-$sql = "SELECT * FROM `user` WHERE `email`= '$gmail'";
+$sql = "SELECT * FROM `customer` WHERE `email`= '$gmail'";
 $result = mysqli_query($conn, $sql);
 $row = mysqli_fetch_assoc($result);
 //$data = mysqli_num_rows($result);
